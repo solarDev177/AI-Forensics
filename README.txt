@@ -40,6 +40,8 @@ docker-compose up --build
 # Enable WSL (Windows Subsystem for Linux)
 
 # Clone the Repository: 
-    git clone https://github.com/solarDev177/AI-Forensics.git  
-    cd AI-Forensics 
+      git clone https://github.com/solarDev177/AI-Forensics.git  
+      cd AI-Forensics 
 
+# Run the repository using Docker Compose
+      docker-compose up --build  
