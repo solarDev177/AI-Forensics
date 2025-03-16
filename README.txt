@@ -20,7 +20,17 @@
 
 # Step 4) Install Docker Compose:  
 
-      sudo apt install -y docker-compose  
+      # Check if docker-compose is installed using: 
+      which docker-compose
+      If the command returns a path: "/usr/local/bin/docker-compose" or something similar, docker-         compose is installed.
+      # If its not, run:
+      sud curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-             $(uname -m)" -o /usr/local/bin/docker-compose
+      # Note: Make sure to replace v2.20.2 with the latest version from the official releases.
+      # After installation, make the binary executable: 
+      sudo chmod +x /usr/local/bin/docker-compose
+      # Verify the installation: 
+      docker-compose --version
+      # If its the latest version, move to step 5. Otherwise, troubleshoot and repeat step 4.
 
 # Step 5) Add your user to the Docker group (to run Docker without sudo):
 
@@ -33,6 +43,14 @@
 
 # Step 7) Run the application using Docker Compose:
       docker-compose up --build  
+      # If an error occurs where there is already a container with the same name, run the commands:
+      docker ps -a # to list containers (even stopped ones)
+      docker rm ai-forencics-app # remove the existing container
+      # if the container is running:
+      docker stop ai-forensics-app
+      docker rm ai-forensics-app
+      # After completing the above, try the command again:
+      docker-compose up --build
 
 << FOR WINDOWS USERS >>
 
