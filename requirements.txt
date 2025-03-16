@@ -3,4 +3,3 @@ pillow
 numpy
 matplotlib
 scipy
-noise_visualization
