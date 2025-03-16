@@ -1,1 +1,15 @@
+version: '3.9'
+
+services:
+  ai-forensics:
+    build: .
+    container_name: ai-forensics-app
+    volumes:
+      - .:/app  # <<<--- Mount local directory into the container
+    working_dir: /app
+    environment:
+      - MPLBACKEND=TkAgg  # <<<--- Ensure Matplotlib GUI works inside the container
+    command: ["python", "main.py"] 
+    stdin_open: true
+    tty: true
 
