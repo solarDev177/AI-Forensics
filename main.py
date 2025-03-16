@@ -2,11 +2,10 @@
 # Data Structures Project - AI Detection
 
 from CV2 import ComputerVisionModule
-import tkinter as tk
+from tkinterdnd2 import TkinterDnD
 
 def main():
-
-    root = tk.Tk()
+    root = TkinterDnD.Tk()  # Use TkinterDnD.Tk() instead of tk.Tk()
     ComputerVisionModule(root)
     root.mainloop()
 
