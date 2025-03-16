@@ -83,7 +83,7 @@
 # Step 6) Run the repository:
       # Download & Install VcXsrv (Recommended)
       https://sourceforge.net/projects/vcxsrv/
-      # Run this display forwarding command before using docker-compose:
+      # Run this display forwarding command in Powershell before using docker-compose:
       $env:DISPLAY="host.docker.internal:0.0"
       # Build the image: 
       docker build -t ai-forensics-app .
