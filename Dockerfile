@@ -1,18 +1,22 @@
-# Use an official Python runtime as a parent image
+# Use a lightweight Python image:
 FROM python:3.9-slim
 
-# Set the working directory
+# Set the working directory:
 WORKDIR /app
 
-# Copy the current directory contents into the container
-COPY . /app
+# Copy requirements first for better caching:
+COPY requirements.txt .
 
-# Install any necessary dependencies
+# Based on the requirements.txt file:
+# Install dependencies:
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Set the environment variable for Matplotlib to avoid display issues
+# Copy the rest of the application:
+COPY . .
+
+# Set the environment variable for Matplotlib:
 ENV MPLBACKEND TkAgg
 
-# Command to run the application
+# Default command (overridden by Docker Compose):
 CMD ["python", "your_script.py"]
 
