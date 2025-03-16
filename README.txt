@@ -42,14 +42,27 @@
       cd AI-Forensics  
 
 # Step 7) Run the application using Docker Compose:
-      docker-compose up --build  
+
       # If an error occurs where there is already a container with the same name, run the commands:
       docker ps -a # to list containers (even stopped ones)
-      docker rm ai-forencics-app # remove the existing container
+      docker rm ai-forencics-app # remove the existing container or:
+      docker-compose down        # to remove the current containers
       # if the container is running:
       docker stop ai-forensics-app
       docker rm ai-forensics-app
-      # After completing the above, try the command again:
+      # After completing the above, try the following commands:
+      
+      docker build -t ai-forensics-app .
+      # Verify the image exists: 
+      docker images
+      # Run it with X11 forwarding enabled: 
+      xhost +local:
+      docker run -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ai-forensics-app
+
+      # If using Wayland, try: 
+      docker run -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY -v /run/user/1000:/run/user/1000 ai-forensics-        app
+
+      # Alternatively, if using docker-compose, run:
       docker-compose up --build
 
 << FOR WINDOWS USERS >>
