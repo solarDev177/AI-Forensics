@@ -1,4 +1,4 @@
-<< LINUX USERS ONLY >>
+<< LINUX/MAC OS/UNIX USERS ONLY >>
 
 # Step 1) Update package lists:
 
@@ -22,8 +22,24 @@ sudo usermod -aG docker $USER
 newgrp docker  # Apply group changes immediately
 
 # Step 6) Now clone the repository:
-git clone https://github.com/your-username/your-repository.git  
-cd your-repository  
+git clone https://github.com/solarDev177/AI-Forensics.git  
+# cd AI-Forensics  
 
 # Step 7) Run the application using Docker Compose:
 docker-compose up --build  
+
+<< FOR WINDOWS USERS >>
+
+# Install Git
+      # Download and install Git for Windows
+
+# Install Docker Desktop
+
+# Ensure Docker is running
+
+# Enable WSL (Windows Subsystem for Linux)
+
+# Clone the Repository: 
+    git clone https://github.com/solarDev177/AI-Forensics.git  
+    cd AI-Forensics 
+
