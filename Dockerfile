@@ -3,15 +3,16 @@ FROM python:3.10-slim
 
 # Install system dependencies (including OpenGL, Tkinter, and tkdnd dependencies)
 RUN apt-get update && apt-get install -y \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
-    python3-tk \
-    tcl8.6 \
-    tk8.6 \
-    libtcl8.6 \
+    libx11-dev \
+    libxcursor1 \
+    libxrandr2 \
+    libxext6 \
+    libxi6 \
+    libxft2 \
     libtk8.6 \
-    && rm -rf /var/lib/apt/lists/*  # Clean up to reduce image size
-
+    tcl8.6-dev \
+    tk8.6-dev \
+    && rm -rf /var/lib/apt/lists/*
 # Set the working directory
 WORKDIR /app
 
