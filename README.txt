@@ -80,5 +80,14 @@
       git clone https://github.com/solarDev177/AI-Forensics.git  
       cd AI-Forensics 
 
-# Step 6) Run the repository using Docker Compose
-      docker-compose up --build  
+# Step 6) Run the repository:
+      # Download & Install VcXsrv (Recommended)
+      https://sourceforge.net/projects/vcxsrv/
+      # Run this display forwarding command before using docker-compose:
+      $env:DISPLAY="host.docker.internal:0.0"
+      # Build the image: 
+      docker build -t ai-forensics-app .
+      # Run the container: 
+      docker run -e DISPLAY=host.docker.internal:0.0 -v /tmp/.X11-unix:/tmp/.X11-unix ai-forensics-app
+
+      
