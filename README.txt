@@ -77,7 +77,10 @@
 # Step 4) Enable WSL (Windows Subsystem for Linux)
 
 # Step 5) Clone the Repository: 
+      
       git clone https://github.com/solarDev177/AI-Forensics.git  
+
+      # cd to the directory:
       cd AI-Forensics 
 
 # Step 6) Run the repository:
