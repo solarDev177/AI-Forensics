@@ -5,11 +5,12 @@ services:
     build: .
     container_name: ai-forensics-app
     volumes:
-      - .:/app  # <<<--- Mount local directory into the container
+      - .:/app  # Mount the project directory
+      - /:/host  # Mount the entire local file system (use with caution)
     working_dir: /app
     environment:
-      - MPLBACKEND=TkAgg  # <<<--- Ensure Matplotlib GUI works inside the container
-    command: ["python", "main.py"] 
+      - DISPLAY=host.docker.internal:0.0  # Set DISPLAY variable for Windows
+      - MPLBACKEND=TkAgg  # Ensure Matplotlib GUI works inside the container
+    command: ["python", "main.py"]
     stdin_open: true
     tty: true
-
