@@ -2,6 +2,12 @@
 
 # Step 1) Update package lists:
 
+# For MAC OS users, they will need to install Homebrew, which is a package manager:
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      # It is strongly suggested to install python3 or docker using Homebrew if the user doesn't have it.
+      # If GUI on MAC OS experiences problems, resetting Docker Desktop and/or its settings is reccomended. 
+
+# Otherwise, update packages in Linux:
       sudo apt update  
 
 # Step 2) Install Git (if not installed):
