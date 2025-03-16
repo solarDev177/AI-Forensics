@@ -50,6 +50,10 @@
       # if the container is running:
       docker stop ai-forensics-app
       docker rm ai-forensics-app
+
+      # If you want to delete all unused images, containers, volumes, and networks, you can run:
+      docker system prune -a
+
       # After completing the above, try the following commands:
       
       docker build -t ai-forensics-app .
