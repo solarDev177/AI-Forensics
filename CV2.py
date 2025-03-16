@@ -1,17 +1,19 @@
 # 11/11/2024
 # Data Structures Project - AI Detection
 
+import platform
 import cv2
 from PIL import Image, ImageTk
 import tkinter as tk
 from tkinter import filedialog
 import numpy as np
+from tkinterdnd2 import DND_FILES
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from noise_visualization import NoiseVisualization
-import os
-import psutil
-import time
+# import os
+# import psutil
+# import time
 import math
 from scipy.signal import convolve2d
 
@@ -86,84 +88,96 @@ class ComputerVisionModule:
         master.grid_columnconfigure(0, weight=1)
         master.grid_columnconfigure(1, weight=1)
 
-        self.text_label = tk.Label(self.frame_top_left, text="For protection: This program does not store or transmit "
-                                                             "any data by default. Analytics are stored by the user.",
+        self.text_label = tk.Label(self.frame_top_left,
+                                   text="For protection: This program does not store or transmit any data by default. Analytics are stored by the user.",
                                    wraplength=350, justify='center', anchor='center')
         self.text_label.pack(pady=10)
 
-        # Load button
+        # Load button (still available as a fallback)
         self.load_button = tk.Button(self.frame_top_left, text="Choose Image", command=self.load_image)
         self.load_button.pack(pady=20)
+
+        # Add a label to act as the drag-and-drop target
+        self.drag_label = tk.Label(self.frame_top_left, text="Drag and Drop Image Here", bg="lightgray", width=30, height=3)
+        self.drag_label.pack(pady=10)
+
+        # Register drag-and-drop support on the drag_label
+        self.drag_label.drop_target_register(DND_FILES)
+        self.drag_label.dnd_bind('<<Drop>>', self.on_drop)
 
         # Quit button
         self.quit_button = tk.Button(self.frame_top_left, text="Quit", command=master.quit)
         self.quit_button.pack(pady=30)
 
         # Predict button
-        self.predict_button = tk.Button(self.frame_top_left, text="Run Prediction Model",
-                                        command=self.run_prediction_model)
+        self.predict_button = tk.Button(self.frame_top_left, text="Run Prediction Model", command=self.run_prediction_model)
         self.predict_button.pack(pady=10)
         self.predict_button.config(state=tk.DISABLED)  # Disabled until an image is chosen
 
-        self.color_dist_button = tk.Button(self.frame_top_left, text="Color Distribution",
-                                           command=self.run_color_distribution_analysis)
+        self.color_dist_button = tk.Button(self.frame_top_left, text="Color Distribution", command=self.run_color_distribution_analysis)
         self.color_dist_button.pack(pady=10)
         self.color_dist_button.config(state=tk.DISABLED)
 
         # Noise variance button (button for variance)
-        self.variance_button = tk.Button(self.frame_top_left, text="Estimate Noise Variance",
-                                               command=self.estimate_noise_variance)
+        self.variance_button = tk.Button(self.frame_top_left, text="Estimate Noise Variance", command=self.estimate_noise_variance)
         self.variance_button.pack(pady=10)
         self.variance_button.config(state=tk.DISABLED)  # Disabled until an image is loaded
 
-        # Top right input image:
+        # Top right input image canvas
         self.image_canvas = tk.Canvas(self.frame_top_right, width=375, height=375)
         self.image_canvas.pack()
 
-        # Bottom left image
+        # Bottom left image canvas
         self.bottom_left_canvas = tk.Canvas(self.frame_bottom_left, width=375, height=375)
         self.bottom_left_canvas.pack()
 
-        # Bottom right image (noise image)
+        # Bottom right image (noise image) canvas
         self.noise_canvas = tk.Canvas(self.frame_bottom_right, width=375, height=375)
         self.noise_canvas.pack()
 
         self.file_path = None  # Store the selected file path
-        self.analysis_label_main = tk.Label(self.frame_top_left, text="Analysis Results: Waiting for input...",
-                                            font=("Arial", 12))
+        self.analysis_label_main = tk.Label(self.frame_top_left, text="Analysis Results: Waiting for input...", font=("Arial", 12))
         self.analysis_label_main.pack(pady=20)
 
         self.analysis_label_plot = tk.Label(self.frame_top_left, text="", font=("Arial", 12))
-        self.analysis_label_plot.pack(pady=20)  # This label will display analysis result below the plot
+        self.analysis_label_plot.pack(pady=20)  # Label to display analysis result below the plot
 
-        # Add the noise variance label here
-        self.noise_variance_label_main = tk.Label(self.frame_top_left, text="Noise Analysis: Waiting for input...",
-                                                  font=("Arial", 12))
-        self.noise_variance_label_main.pack(pady=10)  # Adjust the padding as necessary
+        self.noise_variance_label_main = tk.Label(self.frame_top_left, text="Noise Analysis: Waiting for input...", font=("Arial", 12))
+        self.noise_variance_label_main.pack(pady=10)
 
         self.noise_visualizer = NoiseVisualization()
         self.noise_image = None
         self.image = None
 
+    def on_drop(self, event):
+        """Handle files dropped onto the drag_label."""
+        # event.data contains the file path. It might be wrapped in curly braces if it contains spaces.
+        file_path = event.data
+        if file_path.startswith("{") and file_path.endswith("}"):
+            file_path = file_path[1:-1]
+        self.file_path = file_path
+        self.load_image()
+
     # @timeme
     def load_image(self):
         try:
-            # Ask for file and check if it's selected
-            self.file_path = filedialog.askopenfilename(
-                filetypes=[("Image Files", "*.png;*.jpg;*.jpeg"), ("PNG files", "*.png"),
-                          ("JPEG files", "*.jpg;*.jpeg")]
-            )
+            # If no file path is set (e.g., user used the file dialog), prompt for one.
+            if not self.file_path:
+                self.file_path = filedialog.askopenfilename(
+                    filetypes=[("Image Files", "*.png;*.jpg;*.jpeg"), ("PNG files", "*.png"),
+                               ("JPEG files", "*.jpg;*.jpeg")]
+                )
 
-            # Load the image with OpenCV
+            # Load the image using OpenCV
             image = cv2.imread(self.file_path)
             if image is None:
                 raise ValueError("Failed to load image. Please check the file format.")
 
-            # Convert to RGB and Grayscale once
+            # Convert to RGB and grayscale once
             rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-            # Save image for later processing
+            # Save the image for later processing
             self.image = image
 
             # Function to handle image resizing and display in canvas
@@ -172,22 +186,18 @@ class ComputerVisionModule:
                 pil_image.thumbnail((300, 300))
                 photo = ImageTk.PhotoImage(pil_image)
                 canvas.create_image(0, 0, anchor=anchor, image=photo)
-                canvas.image = photo
+                canvas.image = photo  # Keep a reference
 
-            # Resize and display the original RGB image in top right quadrant
+            # Display the original RGB image in the top right canvas
             display_image(self.image_canvas, rgb_image)
-
-            # Display the grayscale image in bottom left quadrant
+            # Display the grayscale image in the bottom left canvas
             display_image(self.bottom_left_canvas, gray_image)
-
-            # Generate and display the noise visualization in bottom right quadrant
+            # Generate and display the noise visualization in the bottom right canvas
             self.noise_image = self.noise_visualizer.generate_noise_visualization(image)
             display_image(self.noise_canvas, self.noise_image)
 
-            # Update the analysis label
+            # Update the analysis label and enable buttons
             self.analysis_label_main.config(text="Noise Analysis: Visualized in bottom right quadrant.")
-
-            # Enable prediction and color distribution buttons
             self.predict_button.config(state=tk.NORMAL)
             self.color_dist_button.config(state=tk.NORMAL)
             self.variance_button.config(state=tk.NORMAL)
@@ -195,16 +205,12 @@ class ComputerVisionModule:
         except Exception as e:
             self.show_error(f"Error loading image: {str(e)}")
 
-
-
     def show_error(self, error_message):
         error_window = tk.Toplevel(self.master)
         error_window.title("Error")
         error_window.geometry("400x200")
-
         error_label = tk.Label(error_window, text=error_message, font=("Arial", 12), fg="red", wraplength=350)
         error_label.pack(pady=20)
-
         ok_button = tk.Button(error_window, text="OK", command=error_window.destroy)
         ok_button.pack(pady=10)
 
