@@ -1,4 +1,3 @@
-
 version: '3.8'
 services:
   ai-forensics:
@@ -10,13 +9,11 @@ services:
     volumes:
       - .:/app  # Mount the project directory
       - /:/host  # Mount the entire local file system (use with caution)
-      - $HOME:/host_files
-
+      - $HOME:/host_files  # Mount host's home directory to the container
     working_dir: /app
-      - $HOME:/host_files
     environment:
       - DISPLAY=${DISPLAY:-host.docker.internal:0.0}  # Fall back to Windows-style DISPLAY
       - MPLBACKEND=TkAgg  # Ensure Matplotlib GUI works inside the container
       - VNC_PASSWORD=${VNC_PASSWORD:-vncpassword}  # Default to 'vncpassword'
     command: ["python", "main.py"]
-     
+
