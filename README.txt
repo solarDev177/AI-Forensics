@@ -54,7 +54,7 @@
       docker-compose up --build
 
       # If using Wayland, try: 
-      docker run -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY -v /run/user/1000:/run/user/1000 ai-forensics-        app
+      docker run -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY -v /run/user/1000:/run/user/1000 your_image
 
 << FOR WINDOWS USERS >>
 
@@ -81,10 +81,11 @@
       # Run this display forwarding command in Powershell before using docker-compose:
       $env:DISPLAY="host.docker.internal:0.0"
       # Build the image: 
-      docker build -t ai-forensics-app .
+      docker-compose up --build
       # Run the container: 
 
-      docker run --rm -e DISPLAY=host.docker.internal:0.0 -v /tmp/.X11-unix:/tmp/.X11-unix -v ${PWD}:/app/data ai-forensics-app
-
+      docker run -v /c/Users/yourUser/Downloads:/app/Downloads -e DISPLAY=host.docker.internal:0.0 image_name
+      # Replace yourUser with your username in your users directory. This will mount the downloads folder to the Downloads folder in docker, allowing interting images. 
+      # Replace image_name with your image name. 
 
       
