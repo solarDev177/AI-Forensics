@@ -1,15 +1,21 @@
-version: '3'
+
+version: '3.8'
 services:
-  x2go-server:
-    image: your-x2go-image
-    container_name: x2go-server
-    environment:
-      - DISPLAY=:1
-    volumes:
-      - ./home:/home
+  ai-forensics:
+    build: .
+    container_name: ai-forensics-app
     ports:
-      - "22:22"  # SSH for X2Go connection
-      - "3000:3000"  # X2Go client port
+      - "6080:6080"
+      - "5901:5901"
+    volumes:
+      - .:/app  # Mount the project directory
+      - /:/host  # Mount the entire local file system (use with caution)
+    working_dir: /app
+      - $HOME:/host_files
+    environment:
+      - DISPLAY=host.docker.internal:0.0  # Set DISPLAY variable for Windows
+      - MPLBACKEND=TkAgg  # Ensure Matplotlib GUI works inside the container
+    command: ["python", "main.py"]
+      - VNC_PASSWORD=vncpassword
     stdin_open: true
     tty: true
-    command: /etc/init.d/x2goserver start  # Start the X2Go server
