@@ -8,9 +8,9 @@ RUN apt update && apt install -y \
     curl && \
     apt clean
 
-# Set up VNC user and password
+# Set up VNC user and password using the passed environment variable
 RUN useradd -m -s /bin/bash vncuser && \
-    echo "vncuser:VNCDelta134923123" | chpasswd
+    echo "vncuser:$VNC_PASSWORD" | chpasswd
 
 USER vncuser
 RUN echo "$VNC_PASSWORD" | vncpasswd -f > /home/vncuser/.vnc/passwd && \
@@ -20,3 +20,4 @@ EXPOSE 5901 6080
 
 # Start VNC and noVNC server
 CMD vncserver :1 && websockify -D --web /usr/share/novnc 6080 localhost:5901
+
