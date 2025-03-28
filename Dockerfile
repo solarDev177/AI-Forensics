@@ -10,7 +10,8 @@ RUN apt update && apt install -y \
 
 # Set up VNC user
 RUN useradd -m -s /bin/bash vncuser && \
-    echo "vncuser:vncpassword" | chpasswd
+    echo "vncuser:strongpassword" | chpasswd
+
 
 USER vncuser
 RUN mkdir -p /home/vncuser/.vnc && \
