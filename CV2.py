@@ -104,6 +104,10 @@ class ComputerVisionModule:
         # Register drag-and-drop support on the drag_label
         self.drag_label.drop_target_register(DND_FILES)
         self.drag_label.dnd_bind('<<Drop>>', self.on_drop)
+        self.text_label2 = tk.Label(self.frame_top_left,
+                                   text="Drag and Drop not available for containers. See README.txt for details.",
+                                   wraplength=350, justify='center', anchor='center')
+        self.text_label2.pack(pady=10)
 
         # Quit button
         self.quit_button = tk.Button(self.frame_top_left, text="Quit", command=master.quit)
