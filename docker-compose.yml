@@ -1,11 +1,15 @@
 version: '3'
 services:
-  ai-forensics:
-    build: .
-    ports:
-      - "6080:6080"
-    volumes:
-      - .:/app
+  x2go-server:
+    image: your-x2go-image
+    container_name: x2go-server
     environment:
-      - VNC_PASSWORD=vncpassword
-    restart: unless-stopped
+      - DISPLAY=:1
+    volumes:
+      - ./home:/home
+    ports:
+      - "22:22"  # SSH for X2Go connection
+      - "3000:3000"  # X2Go client port
+    stdin_open: true
+    tty: true
+    command: /etc/init.d/x2goserver start  # Start the X2Go server
