@@ -16,11 +16,12 @@ RUN useradd -m -s /bin/bash vncuser && \
 USER vncuser
 RUN mkdir -p /home/vncuser/.vnc && \
     echo "xfce4-session" > /home/vncuser/.vnc/xstartup && \
-    chmod +x /home/vncuser/.vnc/xstartup
+    chmod +x /home/vncuser/.vnc/xstartup && \
+    echo "VNCDelta134923123" | vncpasswd -f > /home/vncuser/.vnc/passwd && \
+    chmod 600 /home/vncuser/.vnc/passwd
 
 EXPOSE 5901 6080
 
-# Start VNC and noVNC server:
+# Start VNC and noVNC server
 CMD vncserver :1 && websockify -D --web /usr/share/novnc 6080 localhost:5901
-
 
