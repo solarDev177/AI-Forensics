@@ -80,11 +80,13 @@
       # Search for the Xlaunch client in Windows. Run it, and leave everything how it is, except check "Disable access control"
       # Run this display forwarding command in Powershell before using docker-compose:
       $env:DISPLAY="host.docker.internal:0.0"
-      # Build the image: 
-      docker-compose up --build
+      # Build the image:
+
+      docker build -t ai-forensics-app .
       # Run the container: 
 
       docker run -v /c/Users/yourUser/Downloads:/app/Downloads -e DISPLAY=host.docker.internal:0.0 image_name
+      
       # Replace yourUser with your username in your users directory. This will mount the downloads folder to the Downloads folder in docker, allowing interting images. 
       # Replace image_name with your image name. 
       # If you don't see your appropriate file types, scroll through the file filter under "Files of type:" to filter for .png, .jpeg, etc. 
