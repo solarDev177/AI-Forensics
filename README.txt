@@ -60,8 +60,15 @@
       # Verify the image exists: 
       docker images
       # Run it with X11 forwarding enabled: 
+      
       xhost +local:
-      docker run -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ai-forensics-app
+      xhost +local:docker  # Allow Docker to access X server (may be needed)
+      docker run --rm \
+    -e DISPLAY=$DISPLAY \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v ~/Downloads:/app/data \
+    ai-forensics-app
+
 
       # If using Wayland, try: 
       docker run -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY -v /run/user/1000:/run/user/1000 ai-forensics-        app
@@ -90,12 +97,14 @@
 # Step 6) Run the repository:
       # Download & Install VcXsrv (Recommended)
       https://sourceforge.net/projects/vcxsrv/
-      # Search for the Xlaunch client in Windows. Run it, and leave everything how it is, except check 
+      # Search for the Xlaunch client in Windows. Run it, and leave everything how it is, except check "Disable access control"
       # Run this display forwarding command in Powershell before using docker-compose:
       $env:DISPLAY="host.docker.internal:0.0"
       # Build the image: 
       docker build -t ai-forensics-app .
       # Run the container: 
-      docker run -e DISPLAY=host.docker.internal:0.0 -v /tmp/.X11-unix:/tmp/.X11-unix ai-forensics-app
+
+      docker run --rm -e DISPLAY=host.docker.internal:0.0 -v /tmp/.X11-unix:/tmp/.X11-unix -v ${PWD}:/app/data ai-forensics-app
+
 
       
