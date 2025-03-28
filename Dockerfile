@@ -8,10 +8,11 @@ RUN apt update && apt install -y \
     curl && \
     apt clean
 
-# Set up VNC user
-RUN echo "vncuser:VNCDelta134923123" | chpasswd
+# Set up VNC user and password before switching user
+RUN useradd -m -s /bin/bash vncuser && \
+    echo "vncuser:VNCDelta134923123" | chpasswd
 
-# Set user context and configure VNC
+# Switch to vncuser and configure VNC
 USER vncuser
 RUN mkdir -p /home/vncuser/.vnc && \
     echo "xfce4-session" > /home/vncuser/.vnc/xstartup && \
@@ -21,4 +22,5 @@ EXPOSE 5901 6080
 
 # Start VNC and noVNC server:
 CMD vncserver :1 && websockify -D --web /usr/share/novnc 6080 localhost:5901
+
 
