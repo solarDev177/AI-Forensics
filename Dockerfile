@@ -19,8 +19,5 @@ RUN mkdir -p /home/vncuser/.vnc && \
 
 EXPOSE 5901 6080
 
-# Start VNC and noVNC server
-COPY start.sh /home/vncuser/start.sh
-RUN chmod +x /home/vncuser/start.sh
-
-CMD ["/home/vncuser/start.sh"]
+# Start VNC and noVNC server:
+CMD vncserver :1 && websockify -D --web /usr/share/novnc 6080 localhost:5901
