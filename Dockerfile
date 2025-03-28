@@ -20,7 +20,7 @@ RUN mkdir -p /home/vncuser/.vnc && \
 EXPOSE 5901 6080
 
 # Start VNC and noVNC server
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
 
 CMD ["/start.sh"]
