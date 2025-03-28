@@ -19,6 +19,4 @@ services:
       - MPLBACKEND=TkAgg  # Ensure Matplotlib GUI works inside the container
       - VNC_PASSWORD=${VNC_PASSWORD:-vncpassword}  # Default to 'vncpassword'
     command: ["python", "main.py"]
-      - VNC_PASSWORD=vncpassword
-    stdin_open: true
-    tty: true
+     
