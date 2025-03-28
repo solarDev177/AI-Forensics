@@ -1,23 +1,32 @@
-FROM ubuntu:latest
+# Use Python 3.10 base image
+FROM python:3.10-slim
 
-RUN apt update && apt install -y \
-    xfce4 xfce4-goodies \
-    tightvncserver \
-    websockify \
-    novnc \
-    curl && \
-    apt clean
+# Install system dependencies (including OpenGL, Tkinter, and tkdnd dependencies)
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libx11-dev \
+    libxcursor1 \
+    libxrandr2 \
+    libxext6 \
+    libxi6 \
+    libxft2 \
+    libtk8.6 \
+    tcl8.6-dev \
+    tk8.6-dev \
+    && rm -rf /var/lib/apt/lists/*
+# Set the working directory
+WORKDIR /app
 
-# Set up VNC user and password using the passed environment variable
-RUN useradd -m -s /bin/bash vncuser && \
-    echo "vncuser:$VNC_PASSWORD" | chpasswd
+# Copy the requirements.txt file into the container
+COPY requirements.txt .
 
-USER vncuser
-RUN echo "$VNC_PASSWORD" | vncpasswd -f > /home/vncuser/.vnc/passwd && \
-    chmod 600 /home/vncuser/.vnc/passwd
+# Install the required Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 5901 6080
+# Copy the rest of the application into the container
+COPY . .
 
-# Start VNC and noVNC server
-CMD vncserver :1 && websockify -D --web /usr/share/novnc 6080 localhost:5901
+# Set the default command to run the application
+CMD ["python", "main.py"]
 
