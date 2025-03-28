@@ -9,8 +9,8 @@ RUN apt update && apt install -y \
     apt clean
 
 # Set up VNC user and password before switching user
-RUN useradd -m -s /bin/bash vncuser && \
-    echo "vncuser:VNCDelta134923123" | chpasswd
+RUN echo "VNCDelta134923123" | vncpasswd -f > /home/vncuser/.vnc/passwd && \
+    chmod 600 /home/vncuser/.vnc/passwd
 
 # Switch to vncuser and configure VNC
 USER vncuser
