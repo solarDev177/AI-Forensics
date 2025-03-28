@@ -45,6 +45,8 @@
 
       # To clear unused images, containers, volumes, and networks, run:
       docker system prune -a
+      # In the event a network is not found, use: 
+      docker network prune
 
       # After completing the above, try the following commands:
 
