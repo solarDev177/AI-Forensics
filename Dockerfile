@@ -1,34 +1,23 @@
 FROM ubuntu:latest
 
-# Install dependencies
+# Install necessary dependencies for Guacamole
 RUN apt update && apt install -y \
-    xfce4 xfce4-goodies \
-    tightvncserver \
-    websockify \
-    novnc \
-    curl && \
-    apt clean
+    curl \
+    default-jdk \
+    tomcat9 \
+    tomcat9-admin \
+    mysql-client \
+    && apt clean
 
-# Set up VNC user
-RUN useradd -m -s /bin/bash vncuser && \
-    echo "vncuser:vncpassword" | chpasswd
+# Expose the necessary ports
+EXPOSE 8080
 
-# Set up VNC server
-USER vncuser
-RUN mkdir -p /home/vncuser/.vnc && \
-    echo "xfce4-session" > /home/vncuser/.vnc/xstartup && \
-    chmod +x /home/vncuser/.vnc/xstartup
+# Install Guacamole client and server
+RUN mkdir -p /opt/guacamole && \
+    curl -L https://github.com/apache/guacamole-server/releases/download/1.3.0/guacamole-1.3.0.tar.gz | tar -xz -C /opt/guacamole
 
-# Expose VNC and noVNC ports
-EXPOSE 5901 6080
+# Set the default command to run Tomcat (Guacamole server)
+CMD ["catalina.sh", "run"]
 
-# Start script
-USER root
-COPY start.sh /start.sh
-
-# Make start.sh executable
-RUN chmod +x /start.sh
-
-CMD ["/start.sh"]
 
 
