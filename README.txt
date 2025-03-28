@@ -51,18 +51,10 @@
       # After completing the above, try the following commands:
 
       # docker-compose to build the image:
-      docker-compose up
-
-      # Go to the port: 
-      https://https://localhost:6080
-      
-
+      docker-compose up --build
 
       # If using Wayland, try: 
       docker run -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY -v /run/user/1000:/run/user/1000 ai-forensics-        app
-
-      # Alternatively, if using docker-compose, run:
-      docker-compose up --build
 
 << FOR WINDOWS USERS >>
 
