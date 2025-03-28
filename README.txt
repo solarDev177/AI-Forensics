@@ -48,10 +48,7 @@
 
       # After completing the above, try the following commands:
 
-      CMD vncserver :1 && websockify -D --web /usr/share/novnc 6080 localhost:5901
-      # This runs the VNC server and noVNC directly.
-
-      # Use docker-compose to build the image:
+      # docker-compose to build the image:
       docker-compose up
 
       # Go to the port: 
