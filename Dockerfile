@@ -1,32 +1,31 @@
-# Use Python 3.10 base image
-FROM python:3.10-slim
+FROM ubuntu:latest
 
-# Install system dependencies (including OpenGL, Tkinter, and tkdnd dependencies)
-RUN apt-get update && apt-get install -y \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
-    libx11-dev \
-    libxcursor1 \
-    libxrandr2 \
-    libxext6 \
-    libxi6 \
-    libxft2 \
-    libtk8.6 \
-    tcl8.6-dev \
-    tk8.6-dev \
-    && rm -rf /var/lib/apt/lists/*
-# Set the working directory
-WORKDIR /app
+# Install dependencies
+RUN apt update && apt install -y \
+    xfce4 xfce4-goodies \
+    tightvncserver \
+    websockify \
+    novnc \
+    curl && \
+    apt clean
 
-# Copy the requirements.txt file into the container
-COPY requirements.txt .
+# Set up VNC user
+RUN useradd -m -s /bin/bash vncuser && \
+    echo "vncuser:vncpassword" | chpasswd
 
-# Install the required Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Set up VNC server
+USER vncuser
+RUN mkdir -p /home/vncuser/.vnc && \
+    echo "xfce4-session" > /home/vncuser/.vnc/xstartup && \
+    chmod +x /home/vncuser/.vnc/xstartup
 
-# Copy the rest of the application into the container
-COPY . .
+# Expose VNC and noVNC ports
+EXPOSE 5901 6080
 
-# Set the default command to run the application
-CMD ["python", "main.py"]
+# Start script
+COPY start-vnc.sh /start-vnc.sh
+RUN chmod +x /start-vnc.sh
+
+CMD ["/start-vnc.sh"]
+
 
