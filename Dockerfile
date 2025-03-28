@@ -20,4 +20,4 @@ RUN mkdir -p /home/vncuser/.vnc && \
 EXPOSE 5901 6080
 
 # Start VNC and noVNC server:
-CMD vncserver :1 && websockify -D --web /usr/share/novnc 6080 localhost:5901
+CMD export DISPLAY=:1 && vncserver :1 && websockify -D --web /usr/share/novnc 6080 localhost:5901
