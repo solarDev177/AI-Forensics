@@ -75,14 +75,21 @@
       cd AI-Forensics 
 
 # Step 6) Run the repository:
+      
       # Download & Install VcXsrv (Recommended)
+      
       https://sourceforge.net/projects/vcxsrv/
+      
       # Search for the Xlaunch client in Windows. Run it, and leave everything how it is, except check "Disable access control"
+      
       # Run this display forwarding command in Powershell before using docker-compose:
+      
       $env:DISPLAY="host.docker.internal:0.0"
+      
       # Build the image:
 
       docker build -t ai-forensics-app .
+      
       # Run the container: 
 
       docker run -v /c/Users/yourUser/Downloads:/app/Downloads -e DISPLAY=host.docker.internal:0.0 image_name
