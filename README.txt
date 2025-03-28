@@ -22,9 +22,9 @@
 
       # Check if docker-compose is installed using: 
       which docker-compose
-      If the command returns a path: "/usr/local/bin/docker-compose" or something similar, docker-         compose is installed.
+      If the command returns a path: "/usr/local/bin/docker-compose" or something similar, docker-compose is installed.
       # If its not, run:
-      sud curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-             $(uname -m)" -o /usr/local/bin/docker-compose
+      sud curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -m)" -o /usr/local/bin/docker-compose
       # Note: Make sure to replace v2.20.2 with the latest version from the official releases.
       # After installation, make the binary executable: 
       sudo chmod +x /usr/local/bin/docker-compose
@@ -38,15 +38,15 @@
       newgrp docker  # Apply group changes immediately
 
 # Step 6) Now clone the repository:
-      git clone https://github.com/solarDev177/AI-Forensics.git  
-      cd AI-Forensics  
+      git clone https://github.com/solarDev177/AI-Forensics
+      cd AI-Forensics
 
 # Step 7) Run the application using Docker Compose:
 
       # If an error occurs where there is already a container with the same name, run the commands:
       docker ps -a # to list containers (even stopped ones)
-      docker rm ai-forencics-app # remove the existing container or:
-      docker-compose down        # to remove the current containers
+      docker rm ai-forencics-app       # remove the existing container or:
+      docker-compose down              # to remove the current containers
       # if the container is running:
       docker stop ai-forensics-app
       docker rm ai-forensics-app
@@ -59,15 +59,11 @@
       docker build -t ai-forensics-app .
       # Verify the image exists: 
       docker images
-      # Run it with X11 forwarding enabled: 
+      # Run it:
+      docker-compose up
+      # Go to the port: 
+      https://https://localhost:6080
       
-      xhost +local:
-      xhost +local:docker  # Allow Docker to access X server (may be needed)
-      docker run --rm \
-    -e DISPLAY=$DISPLAY \
-    -v /tmp/.X11-unix:/tmp/.X11-unix \
-    -v ~/Downloads:/app/data \
-    ai-forensics-app
 
 
       # If using Wayland, try: 
