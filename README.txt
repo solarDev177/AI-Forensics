@@ -43,24 +43,13 @@
 
 # Step 7) Run the application using Docker Compose:
 
-      # If an error occurs where there is already a container with the same name, run the commands:
-      docker ps -a # to list containers (even stopped ones)
-      docker rm ai-forencics-app       # remove the existing container or:
-      docker-compose down              # to remove the current containers
-      # if the container is running:
-      docker stop ai-forensics-app
-      docker rm ai-forensics-app
-
-      # If you want to delete all unused images, containers, volumes, and networks, you can run:
+      # To clear unused images, containers, volumes, and networks, run:
       docker system prune -a
 
       # After completing the above, try the following commands:
       
-      docker build -t ai-forensics-app .
-      # Verify the image exists: 
-      docker images
-      # Run it:
       docker-compose up
+
       # Go to the port: 
       https://https://localhost:6080
       
