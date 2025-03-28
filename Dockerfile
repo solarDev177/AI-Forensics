@@ -27,7 +27,7 @@ COPY run-vnc.sh /run-vnc.sh
 COPY start-vnc.sh /start-vnc.sh
 
 # Make run-vnc.sh executable
-RUN chmod +x /run-vnc.sh
+RUN chmod +x /enable-vnc.sh
 
 RUN chmod +x /start-vnc.sh
 
