@@ -23,13 +23,11 @@ RUN mkdir -p /home/vncuser/.vnc && \
 EXPOSE 5901 6080
 
 # Start script
-COPY enable-vnc.sh /enable-vnc.sh
-COPY start-vnc.sh /start-vnc.sh
+COPY start.sh /start.sh
 
-# Make run-vnc.sh executable
-RUN chmod +x /enable-vnc.sh
-RUN chmod +x /start-vnc.sh
+# Make start.sh executable
+RUN chmod +x start.sh
 
-CMD ["/start-vnc.sh"]
+CMD ["/start.sh"]
 
 
