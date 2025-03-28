@@ -9,7 +9,7 @@ RUN apt update && apt install -y \
     apt clean
 
 # Set up VNC user
-RUN echo "vncuser:strongpassword" | chpasswd
+RUN echo "vncuser:VNCDelta134923123" | chpasswd
 
 # Set user context and configure VNC
 USER vncuser
