@@ -1,27 +1,11 @@
 version: '3'
 services:
-  guacamole:
-    image: guacamole/guacamole
-    depends_on:
-      - guacd
-      - mysql
-    environment:
-      - MYSQL_DATABASE=guacamole_db
-      - MYSQL_USER=guac_user
-      - MYSQL_PASSWORD=aiforensicsdefault
-      - MYSQL_ROOT_PASSWORD=rootpassword
+  ai-forensics:
+    build: .
     ports:
-      - "8080:8080"
-
-  guacd:
-    image: guacamole/guacd
-
-  mysql:
-    image: mysql:5.7
+      - "6080:6080"
+    volumes:
+      - .:/app
     environment:
-      - MYSQL_DATABASE=guacamole_db
-      - MYSQL_USER=guac_user
-      - MYSQL_PASSWORD=aiforensicsdefault
-      - MYSQL_ROOT_PASSWORD=rootpassword
-
-
+      - VNC_PASSWORD=vncpassword
+    restart: unless-stopped
