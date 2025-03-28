@@ -23,10 +23,10 @@ RUN mkdir -p /home/vncuser/.vnc && \
 EXPOSE 5901 6080
 
 # Start script
-COPY start.sh /start.sh
+
 
 # Make start.sh executable
-RUN chmod +x start.sh
+
 
 CMD ["/start.sh"]
 
