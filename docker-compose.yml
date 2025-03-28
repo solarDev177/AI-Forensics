@@ -21,6 +21,7 @@ services:
     environment:
       - MYSQL_DATABASE=guacamole_db
       - MYSQL_USER=guac_user
-      - MYSQL_PASSWORD=somepassword
+      - MYSQL_PASSWORD=aiforensicsdefault
       - MYSQL_ROOT_PASSWORD=rootpassword
+
 
