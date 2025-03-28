@@ -13,10 +13,7 @@ RUN useradd -m -s /bin/bash vncuser && \
     echo "vncuser:VNCDelta134923123" | chpasswd
 
 USER vncuser
-RUN mkdir -p /home/vncuser/.vnc && \
-    echo "xfce4-session" > /home/vncuser/.vnc/xstartup && \
-    chmod +x /home/vncuser/.vnc/xstartup && \
-    echo "VNCDelta134923123" | vncpasswd -f > /home/vncuser/.vnc/passwd && \
+RUN echo "$VNC_PASSWORD" | vncpasswd -f > /home/vncuser/.vnc/passwd && \
     chmod 600 /home/vncuser/.vnc/passwd
 
 EXPOSE 5901 6080
